@@ -91,6 +91,7 @@ async function loadGloVe() {
 	}
 
 function nextWord(){
+	document.getElementById("submit").disabled=false;
 	const keys = Object.keys(vectors);
 	wordNum+=1
 	if (wordNum>10){
@@ -127,9 +128,11 @@ function cosineSimilarity(a, b) {
 
 function submitGuess(){
 	let guess = document.getElementById("guess").value.trim().toLowerCase();
+	document.getElementById("submit").disabled=true;
 	
 	if (!vectors[guess]){
 		document.getElementById("score").innerText = "Word not in dictionary."; 
+		document.getElementById("submit").disabled=false;
 		return;
 	} else {
 		document.getElementById("score").innerText = ""; 
