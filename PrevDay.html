@@ -73,7 +73,7 @@
 	<button id="continue" onclick="nextWord()" style="visibility:hidden;">Next Word</button>
 	</div>
 	<div class="btmContainer">
-	<a href='index.html' style="font-size:50%; color:#558000;" id="prevDay">Return to current day</a>
+	<a href='Game.html' style="font-size:50%; color:#558000;" id="prevDay">Return to current day</a>
 	</div>
 </body>
 
@@ -93,6 +93,7 @@ async function loadGloVe() {
 	}
 
 function nextWord(){
+	document.getElementById("submit").disabled=false;
 	const keys = Object.keys(vectors);
 	wordNum+=1
 	if (wordNum>10){
@@ -129,9 +130,11 @@ function cosineSimilarity(a, b) {
 
 function submitGuess(){
 	let guess = document.getElementById("guess").value.trim().toLowerCase();
+	document.getElementById("submit").disabled=true;
 	
 	if (!vectors[guess]){
-		document.getElementById("score").innerText = "Word not in dictionary."; 
+		document.getElementById("score").innerText = "Word not in dictionary.";
+		document.getElementById("submit").disabled=false;		
 		return;
 	} else {
 		document.getElementById("score").innerText = ""; 
@@ -194,6 +197,5 @@ function isNumber(value) {
 window.onload = loadGloVe();
 
 </script>
-
 
 </html>
