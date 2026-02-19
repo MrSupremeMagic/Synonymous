@@ -100,7 +100,7 @@ function nextWord(){
 		} catch {
 			localStorage.setItem("highscore", 0);
 		}
-		if dailyScore>Number(loadScore){
+		if (dailyScore>Number(loadScore)){
 			try {
 				localStorage.setItem("highscore", dailyScore);
 			} catch (e) {
@@ -177,3 +177,4 @@ window.onload = loadGloVe();
 </script>
 
 </html>
+
