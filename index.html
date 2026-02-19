@@ -95,6 +95,18 @@ function nextWord(){
 	const keys = Object.keys(vectors);
 	wordNum+=1
 	if (wordNum>10){
+		try {
+		let loadScore=localStorage.getItem("highscore");
+		} catch {
+			localStorage.setItem("highscore", 0);
+		}
+		if dailyScore>Number(loadScore){
+			try {
+				localStorage.setItem("highscore", dailyScore);
+			} catch (e) {
+				console.error("Error saving to local storage")
+			}
+		}
 		document.getElementById("word").innerText=dailyScore;
 		document.getElementById("guess").style.visibility="hidden";
 		document.getElementById("intro").innerText="Your Final Score was: ";
@@ -165,4 +177,3 @@ window.onload = loadGloVe();
 </script>
 
 </html>
-
