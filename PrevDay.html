@@ -3,7 +3,7 @@
 
 <head>
 
-	<title>Previous Day</title>
+	<title>Game</title>
 	<style>
 		
 		body{
@@ -110,8 +110,8 @@ function nextWord(){
 		document.getElementById("intro").innerText="Word "+ wordNum+ " is: ";
 	}
 	currentWord=keys[Math.floor((6,536,600/date)* keys.length)+wordNum];
-	if (isNumber(currentWord)) {
-		nextWord();	
+	if (isNumber(currentWord) || currentWord.length<3) {
+		currentWord=keys[Math.floor((6,536,600/date)* keys.length)+wordNum+11]
 		}
 	document.getElementById("word").innerText=currentWord;
 	document.getElementById("continue").style.visibility = "hidden";
@@ -129,8 +129,27 @@ function cosineSimilarity(a, b) {
 }
 
 function submitGuess(){
-	let guess = document.getElementById("guess").value.trim().toLowerCase();
-	document.getElementById("submit").disabled=true;
+		let guess = document.getElementById("guess").value.trim().toLowerCase();
+	if (guess==currentWord){
+		document.getElementById("score").innerText = "Word cannot be the same. ";
+		return
+	}
+	if (!vectors[guess]){
+		document.getElementById("score").innerText = "Word not in dictionary."; 
+		return;
+	} 
+	if (guess.length<3){
+		document.getElementById("score").innerText = "Guess too short";
+		return
+	}
+	if (guess.includes(currentWord) || currentWord.includes(guess)){
+		document.getElementById("score").innerText = "Word cannot be included in guess. ";
+		return
+	}
+	else {
+		document.getElementById("submit").disabled=true;
+		document.getElementById("score").innerText = ""; 
+	}
 	
 	if (!vectors[guess]){
 		document.getElementById("score").innerText = "Word not in dictionary.";
@@ -199,5 +218,3 @@ window.onload = loadGloVe();
 </script>
 
 </html>
-
-
