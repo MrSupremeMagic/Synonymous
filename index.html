@@ -86,6 +86,12 @@ async function loadGloVe() {
 	vectors = await response.json(); 
 	console.log("Loaded", Object.keys(vectors).length, "words");
 	console.log("Fetch status:", response.ok);
+	document.getElementById("guess").addEventListener("onkeydown", (e)=>{
+  		if (e.key == "Enter"){
+			submitGuess();
+    		console.log("Enter key pressed")
+  		}
+	}, false)
 	nextWord();
 	}
 
@@ -188,6 +194,7 @@ window.onload = loadGloVe();
 </script>
 
 </html>
+
 
 
 
