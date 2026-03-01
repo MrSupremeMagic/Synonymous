@@ -82,7 +82,7 @@ let dailyScore = 0;
 
 
 async function loadGloVe() { 
-	let vectors = localStorage.getItem("vectors") ? ((await fetch("vectors_25k.json")).then((response) => response.json())) : (localStorage.getItem("synonymous_version_id") == (await fetch("https://api.github.com/repos/MrSupremeMagic/Synonymous/commits/HEAD")).then((response) => response.json()).then((res) => res.sha) ? JSON.parse(localStorage.getItem("vectors")) : (await fetch("vectors_25k.json")).then((response) => response.json()))
+	let vectors = localStorage.getItem("vectors") ? (await fetch("vectors_25k.json").then((response) => response.json())) : (localStorage.getItem("synonymous_version_id") == (await fetch("https://api.github.com/repos/MrSupremeMagic/Synonymous/commits/HEAD").then((response) => response.json()).then((res) => res.sha)) ? JSON.parse(localStorage.getItem("vectors")) : (await fetch("vectors_25k.json").then((response) => response.json())))
 	console.log("Loaded", Object.keys(vectors).length, "words");
 	console.log("Fetch status:", response.ok);
 	document.getElementById("guess").addEventListener("keydown", function(e){
@@ -199,6 +199,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </script>
 
 </html>
+
 
 
 
