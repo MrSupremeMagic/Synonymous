@@ -82,21 +82,19 @@ let dailyScore = 0;
 
 
 async function loadGloVe() { 
-	const response = await fetch("vectors_25k.json"); 
-	vectors = await response.json(); 
+	let vectors = localStorage.getItem("vectors") ? ((await fetch("vectors_25k.json")).then((response) => response.json())) : (localStorage.getItem("synonymous_version_id") == (await fetch("https://api.github.com/repos/MrSupremeMagic/Synonymous/commits/HEAD")).then((response) => response.json()).then((res) => res.sha) ? JSON.parse(localStorage.getItem("vectors")) : (await fetch("vectors_25k.json")).then((response) => response.json()))
 	console.log("Loaded", Object.keys(vectors).length, "words");
 	console.log("Fetch status:", response.ok);
 	document.getElementById("guess").addEventListener("keydown", function(e){
   		if (e.key == "Enter" && document.getElementById("submit").disabled==false){
 			submitGuess();
     		console.log("Guess Submitted");
-  	} else if(e.key == "Enter" && document.getElementById("submit").disabled==true){
+	  	} else if(e.key == "Enter" && document.getElementById("submit").disabled==true){
 			nextWord();
 		}
-}, false);
-		
+	}, false);
 	nextWord();
-	}
+}
 
 function nextWord(){
 	document.getElementById("submit").disabled=false;
@@ -192,11 +190,16 @@ function isNumber(value) {
 }
 
 
-window.onload = loadGloVe();
+window.addEventListener("DOMContentLoaded", ()=>{
+    document.getElementById("guess").disabled = true
+    document.getElementById("submit").disabled = true
+    loadGloVe()
+});
 
 </script>
 
 </html>
+
 
 
 
