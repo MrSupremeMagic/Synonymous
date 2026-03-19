@@ -90,19 +90,32 @@ async function loadGloVe() {
 	vectors = await response.json(); 
 	console.log("Loaded", Object.keys(vectors).length, "words");
 	console.log("Fetch status:", response.ok);
+	document.getElementById("guess").addEventListener("keydown", function(e){
+  		if (e.key == "Enter" && document.getElementById("submit").disabled==false){
+			submitGuess();
+    		console.log("Guess Submitted");
+  	} else if(e.key == "Enter" && document.getElementById("submit").disabled==true){
+			nextWord();
+		}
+}, false);
 	}
 
 function nextWord(){
 	document.getElementById("submit").disabled=false;
 	const keys = Object.keys(vectors);
-	wordNum+=1
+	wordNum+=1;
+	console.log(wordNum);
+	if (wordNum>11){
+		window.location.reload();
+	}
 	if (wordNum>10){
 		document.getElementById("word").innerText=dailyScore;
 		document.getElementById("guess").style.visibility="hidden";
 		document.getElementById("intro").innerText="Your Final Score was: ";
 		document.getElementById("score").style.visibility="hidden";
 		document.getElementById("dailyScore").style.visibility="hidden";
-		document.getElementById("continue").style.visibility="hidden";
+		document.getElementById("continue").innerText="Play Another Day";
+		document.getElementById("continue").style.visibility="visible";
 		document.getElementById("submit").style.visibility="hidden";
 		return;
 	}
@@ -198,7 +211,11 @@ function convertNewDate(checkDate){
 function submitDate(){
 	let checkDate = document.getElementById("calendar").value;
 	if (checkDate > getToday()){
+		let dailyScore=0;
+		let wordNum=0;
 		document.getElementById("calendar").value=getToday();
+		document.getElementById("guess").style.visibility="visible";
+		document.getElementById("submit").style.visibility="visible";
 	}
 	else {
 		console.log("current",date);
